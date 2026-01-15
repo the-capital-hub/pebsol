@@ -11,6 +11,7 @@ import { Menu, X, Hexagon, ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLenis } from "@/components/providers/lenis-provider";
 
 const Navbar = () => {
 	const { scrollY } = useScroll();
@@ -18,6 +19,7 @@ const Navbar = () => {
 	const [scrolled, setScrolled] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [activeLink, setActiveLink] = useState("#hero");
+	const lenisRef = useLenis();
 
 	useMotionValueEvent(scrollY, "change", (latest) => {
 		const previous = scrollY.getPrevious();
@@ -66,10 +68,7 @@ const Navbar = () => {
 		const targetId = href.substring(1);
 		const element = document.getElementById(targetId);
 		if (element) {
-			window.scrollTo({
-				top: element.offsetTop,
-				behavior: "smooth",
-			});
+			lenisRef?.current?.scrollTo(element, { offset: -80 });
 			setActiveLink(href);
 			setIsMobileMenuOpen(false);
 		}

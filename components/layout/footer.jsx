@@ -4,18 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { Hexagon } from "lucide-react";
 import { FOOTER_LINKS } from "@/constant/data";
+import { useLenis } from "@/components/providers/lenis-provider";
 
 const Footer = () => {
+	const lenisRef = useLenis();
 	const handleScroll = (e, href) => {
 		if (href.startsWith("#")) {
 			e.preventDefault();
 			const targetId = href.substring(1);
 			const element = document.getElementById(targetId);
 			if (element) {
-				window.scrollTo({
-					top: element.offsetTop - 80,
-					behavior: "smooth",
-				});
+				lenisRef?.current?.scrollTo(element, { offset: -80 });
 			}
 		}
 	};
